@@ -40,6 +40,7 @@ func (cli *CLI) Run() {
 		os.Exit(1)
 	}
 
+	// NewFlagSet func(name string, errorHandling ErrorHandling) *FlagSet
 	getBalanceCmd := flag.NewFlagSet("getbalance", flag.ExitOnError)
 	createBlockchainCmd := flag.NewFlagSet("createblockchain", flag.ExitOnError)
 	createWalletCmd := flag.NewFlagSet("createwallet", flag.ExitOnError)
@@ -51,12 +52,15 @@ func (cli *CLI) Run() {
 
 	getBalanceAddress := getBalanceCmd.String("address", "", "The address to get balance for")
 	createBlockchainAddress := createBlockchainCmd.String("address", "", "The address to send genesis block reward to")
+	// send -from address -to address -amount 10 -mine
+	// String func(name string, value string, usage string) *string
 	sendFrom := sendCmd.String("from", "", "Source wallet address")
 	sendTo := sendCmd.String("to", "", "Destination wallet address")
 	sendAmount := sendCmd.Int("amount", 0, "Amount to send")
 	sendMine := sendCmd.Bool("mine", false, "Mine immediately on the same node")
 	startNodeMiner := startNodeCmd.String("miner", "", "Enable mining mode and send reward to ADDRESS")
 
+	// Parse parses the command-line flags from os.Args[1:]. Must be called after all flags are defined and before flags are accessed by the program.
 	switch os.Args[1] {
 	case "getbalance":
 		err := getBalanceCmd.Parse(os.Args[2:])

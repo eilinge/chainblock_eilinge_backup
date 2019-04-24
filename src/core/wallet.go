@@ -57,12 +57,14 @@ func HashPubKey(pubKey []byte) []byte {
 
 // ValidateAddress check if address if valid
 func ValidateAddress(address string) bool {
+	// Base58Decode func(input []byte) []byte
 	pubKeyHash := Base58Decode([]byte(address))
 	actualChecksum := pubKeyHash[len(pubKeyHash)-addressChecksumLen:]
 	version := pubKeyHash[0]
 	pubKeyHash = pubKeyHash[1 : len(pubKeyHash)-addressChecksumLen]
 	targetChecksum := checksum(append([]byte{version}, pubKeyHash...))
 
+	// 0 if a==b, /-1 if a < b, /and +1 if a > b
 	return bytes.Compare(actualChecksum, targetChecksum) == 0
 }
 
